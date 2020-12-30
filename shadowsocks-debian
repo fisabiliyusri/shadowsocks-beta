@@ -1,0 +1,35 @@
+sudo apt-get update && sudo apt-get upgrade -y
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh && chmod +x shadowsocksR.sh
+./shadowsocksR.sh 2>&1 | tee shadowsocksR.log
+
+nano /etc/shadowsocks.json
+{
+	"server":"0.0.0.0",
+	"server_ipv6":"[::]",
+	"port_password": {
+	"1001": "user1",
+	"1002": "user2",
+	"1003": "user3",
+	"1004": "user4"
+	},
+	"local_address":"127.0.0.1",
+	"local_port":1080,
+	"timeout":120,
+	"method":"chacha20",
+	"protocol":"auth_sha1_v4",
+	"protocol_param":"",
+	"obfs":"http_simple",
+	"obfs_param":"",
+	"redirect":"",
+	"dns_ipv6":false,
+	"fast_open":false,
+	"workers":1
+}
+
+
+/etc/init.d/shadowsocks restart
+
+ufw allow 1001:1004/udp
+ufw allow 1001:1004/tcp
+
+https://github.com/shadowsocksrr/shadowsocksr-android/releases/download/3.5.4/shadowsocksr-android-3.5.4.apk
